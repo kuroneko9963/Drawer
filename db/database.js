@@ -3,35 +3,48 @@
 //
 
 const Mysql = require('mysql');
-const app = require('../app');
-const dbconfig = require('./dbconfig.json')[app.get('env')];
+const env = process.env.NODE_ENV || 'development';
+const dbconfig = require('./dbconfig.json');
 
-const DataBase = {
-  connection: null,
-  connect() {
-    const self = this;
-    return new Promise((resolve, reject) => {
-      if (self.connection) {
-        resolve(self);
-        return;
-      }
-      const connection = Mysql.createConnection(dbconfig);
-      connection.connect(err => {
-        if (err) reject(err);
-        self.connection = connection;
-        resolve(self);
-      });
+const connection = {
+  drawer: null
+};
+
+const connectDB = (content) => {
+  return new Promise((resolve, reject) => {
+    const connect = Mysql.createConnection(dbconfig[content][env]);
+    connect.connect(err => {
+      if (err) reject(err);
+      connection[content] = connect;
+      resolve();
     });
-  },
-  queryResult(query) {
-    return new Promise((resolve, reject) => {
-      if (!this.connection) reject(new Error('Mysql is disconnected.'));
-      this.connection.query(query, (error, result) => {
-        if (error) reject(error);
-        resolve(result);
+  });
+};
+
+const getConnection = (content) => {
+  return new Promise(async(resolve, reject) => {
+    if (typeof connection[content] === 'undefined') {
+      reject(new Error(`content: ${content} is not found.`));
+    }
+    else if (connection[content] === null) {
+      await connectDB(content);
+    }
+    resolve(connection[content]);
+  });
+};
+
+const DataBase = async(content) => {
+  return {
+    connect: await getConnection(content),
+    queryResult(query) {
+      return new Promise((resolve, reject) => {
+        this.connect.query(query, (err, result) => {
+          if (err) reject(err);
+          resolve(result);
+        });
       });
-    });
-  }
+    }
+  };
 };
 
 module.exports = DataBase;

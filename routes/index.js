@@ -1,16 +1,29 @@
-var express = require('express');
-var router = express.Router();
+//
+// index routes
+//
 
-const connect = async() => {
-  const DB = require('../db/database');
-  return await DB.connect();
+const getRouter = () => {
+  
+  return new Promise(resolve => {
+    
+    const express = require('express');
+    const router = express.Router();
+    
+    const path = (fileName) => {
+      return `common/views/${fileName}`;
+    };
+    
+    // GET home
+    router.get('/', function(req, res, next) {
+      res.render(path('index'), {
+        title: 'Express',
+      });
+    });
+
+    resolve(router);
+
+  });
+
 };
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', {
-    title: 'Express',
-  });
-});
-
-module.exports = router;
+module.exports = getRouter;

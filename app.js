@@ -1,34 +1,48 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var sassMiddleware = require('node-sass-middleware');
-var errorHandler = require('./middlewares/error');
+//
+// app.js
+//
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const getApp = () => {
 
-var app = express();
+  return new Promise(async resolve => {
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(sassMiddleware({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  indentedSyntax: false, // true = .sass and false = .scss
-  sourceMap: true
-}));
-app.use(express.static(path.join(__dirname, 'public')));
+    const express = require('express');
+    const path = require('path');
+    const cookieParser = require('cookie-parser');
+    const logger = require('morgan');
+    const sassMiddleware = require('node-sass-middleware');
+    const errorHandler = require('./middlewares/error');
+    
+    const app = express();
+  
+    const indexRouter  = await require('./routes/index')();
+    const drawerRouter = await require('./routes/drawer')();
+    
+    app.use(logger('dev'));
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
+    app.use(cookieParser());
+    app.use(sassMiddleware({
+      src: path.join(__dirname, 'public'),
+      dest: path.join(__dirname, 'public'),
+      indentedSyntax: false, // true = .sass and false = .scss
+      sourceMap: true
+    }));
+    app.use(express.static(path.join(__dirname, 'public')));
+    
+    app.set('views', __dirname + '/public');
+    app.set('view engine', 'ejs');
+    
+    app.use('/'      , indexRouter);
+    app.use('/drawer', drawerRouter);
+    
+    app.use(errorHandler.code404);
+    app.use(errorHandler.code5xx);
 
-app.set('views', __dirname + '/public/views');
-app.set('view engine', 'ejs');
+    resolve(app);
+    
+  });
+  
+};
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-app.use(errorHandler.code404);
-app.use(errorHandler.code5xx);
-
-module.exports = app;
+module.exports = getApp;

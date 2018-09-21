@@ -39,7 +39,7 @@ const createErrorLog = async (error) => {
     log += `ERROR: ${name}\n`;
     log += `INFO : ${msg}\n`;
     log += `CODE : returned ${code} - ${info}\n`;
-    log += `STACK: ${stack}\n\n`;
+    log += `STACK: ${stack}\n\n\n`;
   
     const Data = {
       DATE: date_,
@@ -112,7 +112,7 @@ const errorHandler = {
   code404(req, res, next) {
     res.status(404);
     console.log(req.url);
-    res.render('code404', {
+    res.render('common/views/code404', {
       title: '404 Not Found',
       requestedURL: req.url
     });
@@ -127,7 +127,7 @@ const errorHandler = {
     }
 
     res.status(err.statusCode || err.output.statusCode);
-    res.render('code5xx', {
+    res.render('common/views/code5xx', {
       title: 'Error'
     });
   }
