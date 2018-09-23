@@ -1,8 +1,21 @@
+/* STYLE */
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin: 0px; }
 
-a {
-  color: #00B7FF; }
+header {
+  font-size: 3em;
+  margin: 2vh 2vw;
+  border-bottom: solid 2px; }
+
+.contents {
+  margin: 4vh 4vw; }
+
+.subtitle {
+  font-size: 2.2em;
+  margin-top: 4vh; }
+
+.info {
+  margin: 2vh 2vw; }
 
 /*# sourceMappingURL=style.css.map */
