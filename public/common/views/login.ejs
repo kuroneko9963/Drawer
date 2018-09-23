@@ -1,0 +1,31 @@
+<html>
+
+<head>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/common/stylesheets/style.css">
+</head>
+
+<body>
+  <header>
+    Login
+  </header>
+  <div class="contents">
+    <form action="/login" method="POST" autocomplete="off">
+      <div class="input-help">
+        ID
+        <input id="id" name="id" type="text">
+      </div>
+      <div class="input-help">
+        PASS
+        <input id="pass" name="pass" type="password">
+      </div>
+      <p>
+        <input id="remember" name="remember" type="checkbox" value="true">
+        <label for="remember">Remember me</label>
+      </p>
+      <button id="submit" type="submit">Login</button>
+    </form>
+  </div>
+</body>
+
+</html>

@@ -8,7 +8,9 @@ const getApp = () => {
 
     const express = require('express');
     const path = require('path');
+    const bodyParser = require('body-parser');
     const cookieParser = require('cookie-parser');
+    const session = require('express-session');
     const logger = require('morgan');
     const sassMiddleware = require('node-sass-middleware');
     const errorHandler = require('./middlewares/error');
@@ -19,8 +21,8 @@ const getApp = () => {
     const drawerRouter = await require('./routes/drawer')();
     
     app.use(logger('dev'));
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cookieParser());
     app.use(sassMiddleware({
       src: path.join(__dirname, 'public'),
@@ -29,7 +31,16 @@ const getApp = () => {
       sourceMap: true
     }));
     app.use(express.static(path.join(__dirname, 'public')));
-    
+    app.use(session({
+      secret: 'keyboard cat',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        secure: false,
+        httpOnly: true
+      }
+    }));
+
     app.set('views', __dirname + '/public');
     app.set('view engine', 'ejs');
     

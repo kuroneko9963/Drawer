@@ -7,6 +7,7 @@ const env = process.env.NODE_ENV || 'development';
 const dbconfig = require('./dbconfig.json');
 
 const connection = {
+  'learn-pro-sys': null,
   drawer: null
 };
 
