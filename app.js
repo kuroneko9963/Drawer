@@ -14,6 +14,7 @@ const getApp = () => {
     const logger = require('morgan');
     const sassMiddleware = require('node-sass-middleware');
     const errorHandler = require('./middlewares/error');
+    const unauthorized = require('./middlewares/unauthorized');
     
     const app = express();
   
@@ -43,6 +44,8 @@ const getApp = () => {
 
     app.set('views', __dirname + '/public');
     app.set('view engine', 'ejs');
+
+    app.all('*', unauthorized);
     
     app.use('/'      , indexRouter);
     app.use('/drawer', drawerRouter);

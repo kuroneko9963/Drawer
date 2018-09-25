@@ -111,7 +111,6 @@ const createErrorLog = async (error) => {
 const errorHandler = {
   code404(req, res, next) {
     res.status(404);
-    console.log(req.url);
     res.render('common/views/code404', {
       title: '404 Not Found',
       requestedURL: req.url
