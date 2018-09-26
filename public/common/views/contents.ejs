@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/common/stylesheets/style.css">
+</head>
+
+<body>
+  <header>
+    コンテンツ一覧
+  </header>
+  <div class="contents">
+    <ul>
+      <% for(const [name, url] of Object.entries(contents)) { %>
+        <li class="contents-items">
+          <a href="<%= url %>">
+            <%= name %>
+          </a>
+        </li>
+      <% } %>
+    </ul>
+  </div>
+</body>
+
+</html>

@@ -52,3 +52,18 @@ header {
   background: aliceblue;
   cursor: pointer;
 }
+
+.contents-items {
+  font-size: 1.8em;
+  list-style: none;
+}
+
+a {
+  color: lightseagreen;
+  &:visited {
+    color: lightseagreen;
+  }
+  &:focus {
+    outline: none;
+  }
+}

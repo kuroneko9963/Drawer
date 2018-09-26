@@ -54,12 +54,12 @@ const getRouter = () => {
     });
 
     router.get('/contents', (req, res, next) => {
-      if (req.session.contentsLogin) {
-        res.send('logged in');
-      }
-      else {
-        res.send('WARNING :: NOT LOGIN');
-      }
+      res.render(path('contents'), {
+        title: 'Learn-pro | Contents',
+        contents: {
+          'Drawer': '/drawer'
+        }
+      });
     });
 
     resolve(router);
