@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -6,13 +7,10 @@
 </head>
 
 <body>
-  <h1>
-    Welcome to Drawer!!
-  </h1>
-  <div>tables</div>
-  <div>
-    <%- tables %>
-  </div>
+  <%- include('./header', {
+    logged_in
+  }) %>
+  <%- include(`./${page}`, opt) %>
 </body>
 
 </html>

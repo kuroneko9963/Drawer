@@ -16,10 +16,12 @@ const getRouter = () => {
     };
     
     // GET home
-    router.get('/', async(req, res, next) => {
+    router.get('/', (req, res, next) => {
       res.render(path('/index'), {
         title: 'Drawer',
-        tables: JSON.stringify(await DB.queryResult('show tables'), null, 4).replace(/\ /g, '&nbsp;').replace(/\n/g, '<br>')
+        logged_in: false,
+        page: 'top',
+        opt: {}
       });
     });
 
